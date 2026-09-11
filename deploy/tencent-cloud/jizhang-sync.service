@@ -1,0 +1,28 @@
+[Unit]
+Description=Little Joy Ledger Sync Service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=jizhang
+Group=jizhang
+WorkingDirectory=/opt/jizhang/server
+EnvironmentFile=/etc/jizhang/jizhang.env
+Environment=TRUST_PROXY=1
+Environment=REQUIRE_ACCOUNT=1
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/node /opt/jizhang/server/sync-server.js
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/jizhang
+RestrictSUIDSGID=true
+LockPersonality=true
+
+[Install]
+WantedBy=multi-user.target

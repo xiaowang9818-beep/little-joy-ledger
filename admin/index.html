@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="color-scheme" content="light">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' http://127.0.0.1:3000 http://localhost:3000; base-uri 'none'; form-action 'self'; frame-ancestors 'none'">
+  <title>小确幸运营后台</title>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="../ui-icons.css">
+</head>
+<body>
+  <div class="admin-login" id="admin_login">
+    <section class="login-card">
+      <div class="login-art"><span>🍓</span><i>✦</i></div>
+      <p class="eyebrow">LITTLE JOY CONSOLE</p>
+      <h1>小确幸运营后台</h1>
+      <p class="login-sub">会员、手动收费、限定主题和平台 AI 密钥都在这里统一管理。</p>
+      <div class="server-line"><i id="server_dot"></i><span id="server_text">正在检查管理服务…</span></div>
+
+      <form id="login_form" class="auth-form">
+        <label>管理员邮箱<input id="login_email" type="email" autocomplete="username" maxlength="160" required></label>
+        <label>管理员密码<input id="login_password" type="password" autocomplete="current-password" maxlength="128" required></label>
+        <button type="submit">安全登录</button>
+      </form>
+
+      <form id="setup_form" class="auth-form" hidden>
+        <div class="setup-note">这是第一次初始化。请创建唯一的超级管理员，并填写启动窗口或服务器安装结果中显示的一次性初始化口令。</div>
+        <label>管理员称呼<input id="setup_name" maxlength="40" autocomplete="name" value="超级管理员" required></label>
+        <label>管理员邮箱<input id="setup_email" type="email" autocomplete="username" maxlength="160" required></label>
+        <label>设置密码<input id="setup_password" type="password" autocomplete="new-password" maxlength="128" placeholder="至少 10 位，包含字母、数字和符号" required></label>
+        <label>确认密码<input id="setup_confirm" type="password" autocomplete="new-password" maxlength="128" required></label>
+        <label id="setup_token_row">初始化口令<input id="setup_token" type="password" autocomplete="off" maxlength="256" required></label>
+        <button type="submit">创建超级管理员</button>
+      </form>
+      <div class="form-status" id="auth_status" role="alert"></div>
+      <p class="security-tip">后台会话使用独立安全 Cookie。AI Key 只在保存时提交，之后仅显示末四位。</p>
+    </section>
+  </div>
+
+  <div class="admin-app" id="admin_app" hidden>
+    <aside class="sidebar">
+      <div class="brand"><span>🍓</span><div><b>小确幸</b><small>运营后台</small></div></div>
+      <nav id="admin_nav">
+        <button class="on" data-page="overview"><i>🏡</i><span>总览</span></button>
+        <button data-page="users"><i>👤</i><span>用户与开通</span></button>
+        <button data-page="plans"><i>💎</i><span>套餐与收费</span></button>
+        <button data-page="ai"><i>🤖</i><span>AI 服务</span></button>
+        <button data-page="themes"><i>🎨</i><span>限定主题</span></button>
+        <button data-page="flags"><i>🚦</i><span>功能开关</span></button>
+        <button data-page="audit"><i>🛡️</i><span>操作日志</span></button>
+      </nav>
+      <div class="sidebar-foot"><div class="admin-mini"><span id="admin_avatar">👑</span><div><b id="admin_name">管理员</b><small id="admin_role">安全会话</small></div></div><button id="logout_btn">退出</button></div>
+    </aside>
+
+    <main>
+      <header><div><p class="eyebrow">LITTLE JOY CONSOLE</p><h1 id="page_title">运营总览</h1></div><div class="head-actions"><span class="safe-badge">🔐 密钥受保护</span><button id="refresh_btn">↻ 刷新数据</button></div></header>
+      <div class="global-status" id="global_status" role="status"></div>
+
+      <section class="page on" data-page="overview">
+        <div class="metric-grid" id="metric_grid"></div>
+        <div class="two-col">
+          <article class="panel"><div class="panel-title"><div><span>实时状态</span><h2>平台 AI 与权益</h2></div><i class="status-orb" id="ai_orb"></i></div><div id="overview_ai"></div></article>
+          <article class="panel"><div class="panel-title"><div><span>需要关注</span><h2>运营提醒</h2></div></div><div class="notice-list" id="notice_list"></div></article>
+        </div>
+        <article class="panel"><div class="panel-title"><div><span>RECENT ACTIVITY</span><h2>最近操作</h2></div><button data-jump="audit">查看全部</button></div><div class="table-wrap"><table><thead><tr><th>时间</th><th>管理员</th><th>操作</th><th>目标</th><th>结果</th></tr></thead><tbody id="overview_audit"></tbody></table></div></article>
+      </section>
+
+      <section class="page" data-page="users">
+        <article class="panel search-panel"><div><span class="panel-kicker">用户搜索</span><h2>查找账号并手动开通</h2><p>输入完整邮箱或昵称。金额按“元”填写，系统会换算成分并留下不可删除的收费记录。</p></div><form id="user_search_form" class="inline-form"><input id="user_query" placeholder="邮箱、昵称或用户编号" maxlength="160" required><button>查找用户</button></form></article>
+        <div class="user-results" id="user_results"><div class="empty-state">输入邮箱后查看账号、会员和 AI 用量</div></div>
+        <div class="two-col align-start">
+          <article class="panel"><div class="panel-title"><div><span>会员操作</span><h2>手动开通 / 续费</h2></div></div><form id="billing_form" class="form-grid">
+            <label class="wide">用户邮箱或编号<input id="bill_user" maxlength="160" required></label>
+            <label>操作<select id="bill_action"><option value="activate">开通会员</option><option value="renew">续费</option><option value="gift">赠送会员（不收费）</option><option value="deactivate">停用会员</option></select></label>
+            <label>套餐<select id="bill_plan"></select></label>
+            <label>实收金额（元）<input id="bill_amount" type="number" min="0.01" step="0.01" value="0" required></label>
+            <label>渠道<select id="bill_channel"><option value="offline">线下收款</option><option value="wechat_manual">微信手动收款</option><option value="alipay_manual">支付宝手动收款</option><option value="bank">银行转账</option></select></label>
+            <label>付款参考号<input id="bill_reference" maxlength="100" placeholder="必填，例如微信或支付宝交易单号" required></label>
+            <label>备注<input id="bill_note" maxlength="300" placeholder="开通原因或说明"></label>
+            <small class="wide" id="bill_rules">开通/续费：实收金额必须大于 0，并填写真实收款渠道和唯一付款参考号。</small>
+            <label class="wide sensitive">管理员密码（二次确认）<input id="bill_password" type="password" autocomplete="current-password" required></label>
+            <button class="wide primary" type="submit">确认并留下收费审计记录</button>
+          </form></article>
+          <article class="panel"><div class="panel-title"><div><span>单项权益</span><h2>赠送次数 / 单独解锁</h2></div></div><form id="grant_form" class="form-grid">
+            <label class="wide">用户邮箱或编号<input id="grant_user" maxlength="160" required></label>
+            <label>权益<select id="grant_feature"><option value="ai.receipt">AI 单张识票</option><option value="ai.batch_receipt">AI 批量识票</option><option value="ai.voice">AI 语音记账</option><option value="ai.writing">AI 灵感与日记</option><option value="theme.premium">限定主题</option></select></label>
+            <label>操作<select id="grant_enabled"><option value="true">开通 / 赠送</option><option value="false">撤销</option></select></label>
+            <label>月额度<input id="grant_quota" type="number" min="0" step="1" placeholder="主题可留空"></label>
+            <label>有效天数<input id="grant_days" type="number" min="1" step="1" value="30"></label>
+            <label class="wide">备注<input id="grant_note" maxlength="300" required placeholder="赠送、试用或补偿原因"></label>
+            <label class="wide sensitive">管理员密码（二次确认）<input id="grant_password" type="password" autocomplete="current-password" required></label>
+            <button class="wide primary" type="submit">保存权益变更</button>
+          </form></article>
+        </div>
+      </section>
+
+      <section class="page" data-page="plans">
+        <div class="two-col align-start"><article class="panel"><div class="panel-title"><div><span>套餐目录</span><h2>当前套餐</h2></div></div><div id="plan_cards" class="catalog-list"></div></article>
+        <article class="panel"><div class="panel-title"><div><span>新增或修改</span><h2>套餐配置</h2></div></div><form id="plan_form" class="form-grid">
+          <label>套餐编号<input id="plan_id" maxlength="64" placeholder="premium_monthly" required></label><label>套餐名称<input id="plan_name" maxlength="80" placeholder="月度限定会员" required></label>
+          <label>价格（元）<input id="plan_price" type="number" min="0" step="0.01" required></label><label>有效天数<input id="plan_days" type="number" min="1" step="1" value="30" required></label>
+          <label>单张识票月额度<input id="plan_receipt_quota" type="number" min="0" step="1" value="100"></label><label>批量识票月额度<input id="plan_batch_quota" type="number" min="0" step="1" value="50"></label>
+          <label>语音月额度<input id="plan_voice_quota" type="number" min="0" step="1" value="100"></label><label>AI 写作月额度<input id="plan_writing_quota" type="number" min="0" step="1" value="40"></label><label>状态<select id="plan_active"><option value="true">上架</option><option value="false">下架</option></select></label>
+          <label class="wide">套餐说明<input id="plan_description" maxlength="240" placeholder="显示给用户的简短说明"></label><label class="wide sensitive">管理员密码（二次确认）<input id="plan_password" type="password" autocomplete="current-password" required></label>
+          <button class="wide primary">保存套餐版本</button>
+        </form></article></div>
+      </section>
+
+      <section class="page" data-page="ai">
+        <div class="ai-warning">🔐 平台 API Key 只在这一次提交给服务器；保存后后台仅显示末四位。禁止把密钥填写到用户前端或部署包中。</div>
+        <div class="two-col align-start">
+          <article class="panel"><div class="panel-title"><div><span>服务商保险箱</span><h2>AI 服务商与密钥</h2></div></div><div id="provider_list" class="catalog-list"></div><form id="provider_form" class="form-grid separated">
+            <label>服务商编号<input id="provider_id" maxlength="64" placeholder="doubao_primary" required></label><label>显示名称<input id="provider_name" maxlength="80" placeholder="豆包主线路" required></label>
+            <label class="wide">固定接口地址<input id="provider_base" type="url" maxlength="500" placeholder="https://ark.cn-beijing.volces.com/api/v3/responses" required></label><label>支持能力<select id="provider_capabilities"><option value="vision,text">图片 + AI 写作</option><option value="text">AI 写作</option><option value="vision">图片识别</option><option value="stt">语音识别</option><option value="vision,stt,text">图片 + 语音 + AI 写作</option></select></label><label>请求超时（毫秒）<input id="provider_timeout" type="number" min="5000" max="180000" step="1000" value="90000"></label>
+            <label class="wide sensitive">新的 API Key<input id="provider_key" type="password" autocomplete="off" maxlength="1024" placeholder="留空表示不轮换现有 Key"></label><label>启用<select id="provider_enabled"><option value="true">启用</option><option value="false">停用</option></select></label><label>输入成本（分/百万 Token）<input id="provider_input_cost" type="number" min="0" step="1" value="0"></label><label>输出成本（分/百万 Token）<input id="provider_output_cost" type="number" min="0" step="1" value="0"></label>
+            <label class="wide sensitive">管理员密码（二次确认）<input id="provider_password" type="password" autocomplete="current-password" required></label><button class="wide primary">加密保存服务商</button>
+          </form></article>
+          <article class="panel"><div class="panel-title"><div><span>模型路由</span><h2>任务走哪条线路</h2></div></div><div id="route_list" class="catalog-list"></div><form id="route_form" class="form-grid separated">
+            <label>任务<select id="route_capability"><option value="vision">图片识别（单张与批量）</option><option value="text">AI 灵感与日记</option><option value="stt">语音记账</option></select></label><label>服务商<select id="route_primary"></select></label><label>模型名<input id="route_model" maxlength="160" required></label><label>启用<select id="route_enabled"><option value="true">启用</option><option value="false">停用</option></select></label>
+            <label class="wide sensitive">管理员密码（二次确认）<input id="route_password" type="password" autocomplete="current-password" required></label><button class="wide primary">保存路由</button>
+          </form></article>
+        </div>
+        <article class="panel"><div class="panel-title"><div><span>本月消耗</span><h2>AI 用量与内部成本</h2></div></div><div id="usage_summary" class="usage-grid"></div></article>
+      </section>
+
+      <section class="page" data-page="themes">
+        <div class="theme-admin-grid" id="theme_catalog"></div>
+        <article class="panel"><div class="panel-title"><div><span>发布控制</span><h2>主题目录信息</h2></div><small>只允许元数据，不允许后台注入 CSS 或脚本</small></div><form id="theme_form" class="form-grid">
+          <label>主题编号<input id="theme_id" maxlength="64" required></label><label>主题名称<input id="theme_name" maxlength="80" required></label><label>类型<select id="theme_premium"><option value="true">限定主题</option><option value="false">免费主题</option></select></label><label>状态<select id="theme_enabled"><option value="true">发布</option><option value="false">隐藏</option></select></label><label>排序<input id="theme_sort" type="number" min="0" step="1" value="100"></label><label class="wide">说明<input id="theme_description" maxlength="240"></label><label class="wide sensitive">管理员密码（二次确认）<input id="theme_password" type="password" autocomplete="current-password" required></label><button class="wide primary">保存主题目录</button>
+        </form></article>
+      </section>
+
+      <section class="page" data-page="flags"><article class="panel"><div class="panel-title"><div><span>灰度与应急</span><h2>功能开关</h2></div></div><div id="flag_list" class="flag-list"></div><form id="flag_form" class="form-grid separated"><label>开关名称<input id="flag_key" maxlength="80" placeholder="ai.enabled" required></label><label>值<select id="flag_value"><option value="true">开启</option><option value="false">关闭</option></select></label><label class="wide">变更原因<input id="flag_note" maxlength="240" required></label><label class="wide sensitive">管理员密码（二次确认）<input id="flag_password" type="password" autocomplete="current-password" required></label><button class="wide primary">保存功能开关</button></form></article></section>
+
+      <section class="page" data-page="audit"><article class="panel"><div class="panel-title"><div><span>APPEND-ONLY AUDIT</span><h2>后台操作日志</h2></div><small>日志仅追加，不提供删除</small></div><div class="table-wrap"><table><thead><tr><th>时间</th><th>管理员</th><th>IP</th><th>操作</th><th>目标</th><th>说明</th></tr></thead><tbody id="audit_table"></tbody></table></div></article></section>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="../ui-icons.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "little-joy-ledger-server",
+  "version": "3.0.0",
+  "private": true,
+  "description": "小确幸记账同步、AI 转发与个人计划推送服务",
+  "main": "sync-server.js",
+  "scripts": {
+    "start": "node sync-server.js",
+    "test": "node test-static-server.js && node test-frontend.js && node test-paid-frontend.js && node test-regressions.js && node test-auth.js && node test-paid-admin.js && node test-push.js"
+  },
+  "dependencies": {
+    "web-push": "3.6.7"
+  }
+}

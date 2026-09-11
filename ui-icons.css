@@ -1,0 +1,41 @@
+/* 统一线性图标：页面不再直接展示系统彩色 Emoji。 */
+.ui-icon-v1{display:inline-flex;flex:0 0 auto;width:1.08em;height:1.08em;margin:0 .08em;vertical-align:-.18em;color:currentColor;line-height:1}
+.ui-icon-v1 svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.big>.ui-icon-v1,.repayment-plan-empty-v1>div>.ui-icon-v1,.growth-entry-mark-v5>.ui-icon-v1{width:1em;height:1em;margin:0}
+.bubble>.ui-icon-v1,.quick-icon>.ui-icon-v1,.settings-tool>.ui-icon-v1:first-child{width:1.22em;height:1.22em;margin:0}
+
+/* 所有新建/编辑弹窗共享同一套文字、字段与按钮排版。 */
+.sheet{font-family:inherit;color:var(--txt)}
+.sheet>h3,.sheet h3[id]{display:flex;align-items:center;gap:9px;min-height:30px;margin:0 0 18px;font-family:inherit;font-size:20px;font-weight:850;line-height:1.35;letter-spacing:0;color:var(--txt)}
+.sheet>h3 .ui-icon-v1,.sheet h3[id] .ui-icon-v1{width:23px;height:23px;color:var(--brand)}
+.sheet input,.sheet select,.sheet textarea,.sheet button,.sheet .btn{font-family:inherit;letter-spacing:0}
+.sheet input,.sheet select,.sheet textarea{font-size:15px;line-height:1.55}
+.sheet textarea::placeholder,.sheet input::placeholder{font-family:inherit;color:var(--sub);opacity:.82}
+.sheet .label{font-family:inherit;font-size:13px;font-weight:650;line-height:1.35;color:var(--sub)}
+.sheet-btns .btn,.sheet .btnrow .btn{display:flex;align-items:center;justify-content:center;min-height:48px;font-size:15px;font-weight:800;line-height:1.2}
+.sheet-btns .btn-primary,.sheet .btnrow .btn-primary{box-shadow:0 9px 22px color-mix(in srgb,var(--brand) 22%,transparent)}
+
+/* 原本依赖彩色 Emoji 的图标容器，改为跟随主题色。 */
+.big,.bubble,.quick-icon,.settings-tool,.growth-entry-mark-v5,.user-avatar,.ledger-icon{color:var(--brand)}
+
+/* 专业菜单图标：轻线条、统一底座，选中态使用主题渐变。 */
+.tabbar .tab .ic .ui-icon-v1{width:18px;height:18px;margin:0;color:color-mix(in srgb,var(--brand-d) 72%,var(--sub))}
+.tabbar .tab.on .ic{background:linear-gradient(145deg,var(--brand),var(--theme-accent-2));box-shadow:0 6px 14px color-mix(in srgb,var(--brand) 25%,transparent)}
+.tabbar .tab.on .ic .ui-icon-v1{color:#fff}
+.quick-menu .qi .ui-icon-v1{width:20px;height:20px;margin:0;color:var(--brand-d)}
+.quick-menu .qm:nth-child(even) .qi .ui-icon-v1{color:color-mix(in srgb,var(--theme-accent-2) 72%,var(--txt))}
+.settings-tool>.ui-icon-v1:first-child{width:21px;height:21px;margin:0 0 5px;color:var(--brand-d)}
+.account-chip-v2 i .ui-icon-v1,.gear .ui-icon-v1{width:17px;height:17px;margin:0}
+
+/* 主题卡片拥有独立语义图标，不再由通用 Emoji 映射猜测。 */
+.theme-card .theme-dot{width:42px!important;height:42px!important;border-radius:15px!important;color:#fff;box-shadow:0 7px 16px color-mix(in srgb,var(--theme-card-main) 30%,transparent)!important}
+.theme-card .theme-dot .ui-icon-v1{width:23px;height:23px;margin:0;filter:drop-shadow(0 1px 1px rgba(0,0,0,.12))}
+.theme-card.locked::after{display:none!important}
+.theme-card.locked{filter:none!important;opacity:.92}
+.theme-lock-v3{border:1px solid color-mix(in srgb,var(--brand) 14%,var(--line));box-shadow:none!important}
+.hero-mascot .ui-icon-v1{width:31px;height:31px;margin:0;color:#fff;filter:drop-shadow(0 2px 3px rgba(0,0,0,.14))}
+
+@media(max-width:430px){
+  .sheet>h3,.sheet h3[id]{font-size:19px;margin-bottom:16px}
+  .sheet input,.sheet select,.sheet textarea{font-size:16px}
+}

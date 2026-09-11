@@ -1,0 +1,26 @@
+# Runtime data and secrets
+.env
+.env.*
+!.env.example
+data.json
+server/data.json
+*.log
+*.tmp
+*.corrupt-*
+*-token.txt
+*-key.txt
+
+# Dependencies and editor files
+node_modules/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local QA captures and generated archives
+qa/
+design-qa.md
+design-qa-*
+implementation-*
+*.zip
+

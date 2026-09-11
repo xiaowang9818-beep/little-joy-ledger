@@ -1,0 +1,19 @@
+{
+  "name": "小确幸记账",
+  "short_name": "小确幸",
+  "description": "可爱、轻量、本地优先的全功能记账本",
+  "lang": "zh-CN",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fff3f7",
+  "theme_color": "#ff7197",
+  "icons": [
+    {
+      "src": "app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
